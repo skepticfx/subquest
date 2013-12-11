@@ -3,7 +3,33 @@
 // npm install -g subquest
 
 var subquest = require('subquest');
+var program = require('commander');
 
-console.log('This is a basic stuff now. Let me try the top-100 dictionary on google.com');
-subquest.find({domain: 'google.com'});
-console.log('Thats it for now.');
+program
+  .version('0.1.0')
+  .usage('[options] <domain to scan>\n  Examples:\n\tsubquest google.com\n\tsubquest facebook.com -s 8.8.8.8 -r 20 -d top_50\n\tsubquest twitter.com -s 8.8.8.8 -d all')
+  .option('-s, --server [ip]', 'Specify your custom DNS resolver', 'none')
+  .option('-r, --ratelimit [limit]', 'Set the Rate Limit [Default value is 10]', '10')
+  .option('-d, --dictionary [type]', 'Set the dictionary for bruteforcing [top_100]', 'top_100')
+  .parse(process.argv);
+
+  
+if(program.args.length != 1)
+	program.help();
+
+var obj = {};
+obj.domain = program.args[0];
+if (program.server != 'none') obj.resolver = program.server;
+if (program.ratelimit) obj.rateLimit = program.ratelimit;
+if (program.dictionary) obj.dictionary = program.dictionary;
+
+subquest.find(obj);
+
+/*
+find()
+domain
+rateLimit
+dictionary
+resolver
+
+*/

@@ -7,10 +7,10 @@ var path = require('path');
 
 var validResolvers = [];
 var dictionary = {};
-dictionary.top_50 = "dictionary/top-50.txt";
-dictionary.top_100 = "dictionary/top-100.txt";
-dictionary.top_150 = "dictionary/top-150.txt";
-dictionary.top_200 = "dictionary/top-200.txt";
+dictionary.top_50 = "dictionary/top_50.txt";
+dictionary.top_100 = "dictionary/top_100.txt";
+dictionary.top_150 = "dictionary/top_150.txt";
+dictionary.top_200 = "dictionary/top_200.txt";
 dictionary.all = "dictionary/all.txt";
 dictionary.resolver = "dictionary/resolvers.txt";
 
@@ -18,7 +18,11 @@ dictionary.resolver = "dictionary/resolvers.txt";
 // This can all be in parallel, since its all different servers.
 // The callback is fired with the first found valid DNS Resolver.
 // ARGS-> all, callback - all = Populate all the valid DNS Servers.
-function getResolvers(all, foundDnsServer){
+function getResolvers(all, foundDnsServer, dnsServer){
+	if(typeof dnsServer != "undefined"){
+		queryResolvers(dnsServer);
+		return;
+	}
 	var FIRST_DNS = 0;
 	if(all == 1)
 		console.log('Hold on a second ! We are populating the list of valid DNS Resolvers.');
@@ -79,7 +83,41 @@ function getResolvers(all, foundDnsServer){
 
 }
 
+// Function to check a given DNS Resolver
+function checkDnsServer(dnsServer, callback){
+	var isValid = 0;
+	var question = dns.Question({
+		name: 'www.google.com',
+		type: 'A',
+	});
+	
+	var start = Date.now();
+	var req = dns.Request({
+		question: question,
+		server: { address: dnsServer, port: 53, type: 'udp' },
+		timeout: 4000
+	});
 
+	req.on('timeout', function () {
+		console.log('Timeout while querying the DNS Server, ' + dnsServer);
+		isValid = 0;		
+	});
+	
+	// rcode = 0 , NoError
+	// rcode = 3 , NXDomain
+	req.on('message', function (err, answer) {
+		if(answer.header.rcode == 0)
+			isValid = 1;
+	});
+
+	req.on('end', function () {
+		var delta = (Date.now()) - start;
+		//console.log('Finished processing request: ' + delta.toString() + 'ms');
+		callback(null, isValid);
+	});
+
+	req.send();
+}
 // Function for Generic Brute Forcing
 function find(obj){
 	var rateLimit = 5;
@@ -92,11 +130,19 @@ function find(obj){
 	var domain = 'google.com';
 	if(typeof obj.domain != "undefined")
 		domain = obj.domain;
-	if(typeof obj.resolver != "undefined")	
-		doFind(obj.resolver);
-	else
+	if(typeof obj.resolver != "undefined"){
+		checkDnsServer(obj.resolver, function(err, x){
+			if(x == 1){
+				doFind(obj.resolver);	
+			} else {
+				console.log('The DNS Server, ' + obj.resolver + ' doesn\'t seems to respond.');
+				return;
+			}	
+		});
+	}else{
 		getResolvers(0, doFind);
-		
+	}	
+	
 	function doFind(dnsServer){
 		async.eachLimit(dictionary_arr, rateLimit, bruteSubDomain, function(err){
 			console.log('Finished bruteforcing, '+ domain);
@@ -142,4 +188,16 @@ function find(obj){
 }
 
 exports.find = find;
-find({domain: 'facebook.com', rateLimit: '10', dictionary: 'top_50'});
+//find({domain: 'facebook.com', rateLimit: '10', dictionary: 'all'});
+
+
+/*
+find()
+domain
+rateLimit
+dictionary
+resolver
+
+
+
+*/

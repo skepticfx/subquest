@@ -1,6 +1,6 @@
 {
   "name": "subquest",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Fast, Elegant subdomain scanner using nodejs",
   "main": "index.js",
   "repository": {
@@ -8,12 +8,14 @@
     "url": "git://github.com/skepticfx/subquest.git"
   },
   "dependencies": {
-    "native-dns": "*",
-    "async": "*"
+    "native-dns" : "*",
+    "async" : "*",
+	"commander" : "*"
   },
   "bin": {
     "subquest": "./bin/subquest"
   },
+  "preferGlobal": true,
   "keywords": [
     "subdomain",
     "pentest",
