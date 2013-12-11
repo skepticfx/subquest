@@ -1,0 +1,9 @@
+#!/usr/bin/env node
+
+// npm install -g subquest
+
+var subquest = require('subquest');
+
+console.log('This is a basic stuff now. Let me try the top-100 dictionary on google.com');
+subquest.find({domain: 'google.com'});
+console.log('Thats it for now.');

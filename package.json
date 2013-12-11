@@ -1,0 +1,33 @@
+{
+  "name": "subquest",
+  "version": "0.0.1",
+  "description": "Fast, Elegant subdomain scanner using nodejs",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/skepticfx/subquest.git"
+  },
+  "dependencies": {
+	"native-dns" : "*",
+	"async" : "*"
+  },
+  "bin": {
+    "subquest": "./bin/subquest"
+  },
+  "keywords": [
+    "subdomain",
+    "pentest",
+    "scanner",
+    "subbrute",
+    "bruteforce",
+    "dns",
+    "fingerprinting",
+    "domain"
+  ],
+  "author": "Ahamed Nafeez <ahamed.nafeez@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/skepticfx/subquest/issues"
+  },
+  "homepage": "https://github.com/skepticfx/subquest"
+}
