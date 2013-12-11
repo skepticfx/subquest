@@ -8,7 +8,7 @@
 `npm install -g subquest`
 
 ## Usage
-
+`
  Usage: subquest [options] <domain to scan>
  Examples:
        subquest google.com
@@ -22,7 +22,7 @@
    -s, --server [ip]        Specify your custom DNS resolver
    -r, --ratelimit [limit]  Set the Rate Limit [Default value is 10]
    -d, --dictionary [type]  Set the dictionary for bruteforcing [top_100]
-
+`
 ## Using it in your modules
 
 `npm install subquest`
