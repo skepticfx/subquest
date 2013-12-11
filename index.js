@@ -4,42 +4,48 @@ var async = require('async');
 var fs = require('fs');
 var path = require('path');
 
-// Function for Generic Brute Forcing
-function find(obj){
 
-	var dictionary = {};
-	dictionary.top_50 = "dictionary/top-50.txt";
-	dictionary.top_100 = "dictionary/top-100.txt";
-	dictionary.top_150 = "dictionary/top-150.txt";
-	dictionary.top_200 = "dictionary/top-200.txt";
-	dictionary.all = "dictionary/all.txt";
-	dictionary.resolver = "dictionary/resolvers.txt";
+var validResolvers = [];
+var dictionary = {};
+dictionary.top_50 = "dictionary/top-50.txt";
+dictionary.top_100 = "dictionary/top-100.txt";
+dictionary.top_150 = "dictionary/top-150.txt";
+dictionary.top_200 = "dictionary/top-200.txt";
+dictionary.all = "dictionary/all.txt";
+dictionary.resolver = "dictionary/resolvers.txt";
 
-	var rateLimit = 5;
-	if(typeof obj.rateLimit != "undefined")
-		rateLimit = obj.rateLimit;	
-	var dictionary_path = dictionary.top_100;
+
+// This can all be in parallel, since its all different servers.
+// The callback is fired with the first found valid DNS Resolver.
+// ARGS-> all, callback - all = Populate all the valid DNS Servers.
+function getResolvers(all, foundDnsServer){
+	var FIRST_DNS = 0;
+	if(all == 1)
+		console.log('Hold on a second ! We are populating the list of valid DNS Resolvers.');
+	var dictionary_path = dictionary.resolver;
 	var dictionary_arr = fs.readFileSync(path.join(__dirname, dictionary_path)).toString().split("\r\n");
-	var domain = 'google.com';
-	if(typeof obj.domain != "undefined")
-		domain = obj.domain;
-
-	async.eachLimit(dictionary_arr, rateLimit, bruteSubDomain, function(err){
-		// if any of the saves produced an error, err would equal that error
+	async.eachLimit(dictionary_arr, 1, queryResolvers, function(err){
+		if(validResolvers.length == 0){
+			console.log('Could not find any active DNS resolver. Quitting now.');
+			process.exit(1);
+		} else {
+			if(all == 1)
+				console.log('Good ! We have populated the active DNS resolvers.');
+			return;
+		}
 	});
-
-	function bruteSubDomain(item, callback){
-		var Sdomain = item + '.' + domain;
+	
+	function queryResolvers(item, callback){
+		var domain = 'www.google.com';
 		var question = dns.Question({
-			name: Sdomain,
+			name: domain,
 			type: 'A',
 		});
-
+		
 		var start = Date.now();
-
 		var req = dns.Request({
 			question: question,
-			server: { address: '10.140.50.5', port: 53, type: 'udp' },
+			server: { address: item, port: 53, type: 'udp' },
 			timeout: 4000
 		});
 
@@ -50,18 +56,90 @@ function find(obj){
 		// rcode = 0 , NoError
 		// rcode = 3 , NXDomain
 		req.on('message', function (err, answer) {
-			if(answer.header.rcode == 0)
-				console.log(Sdomain);	
+			if(answer.header.rcode == 0){
+				validResolvers.push(item);	
+				if(all == 0){
+					foundDnsServer(item);
+					callback(true);
+				}		
+			}	
 		});
 
 		req.on('end', function () {
 			var delta = (Date.now()) - start;
 			//console.log('Finished processing request: ' + delta.toString() + 'ms');
-			callback();
+			if(all == 0)
+				callback(true);
+			else
+				callback(null);
 		});
 
 		req.send();
+	}	
 
+}
+
+
+// Function for Generic Brute Forcing
+function find(obj){
+	var rateLimit = 5;
+	if(typeof obj.rateLimit != "undefined")
+		rateLimit = obj.rateLimit;	
+	var dictionary_path = dictionary.top_100;
+	if(typeof obj.dictionary != "undefined")
+		dictionary_path = dictionary[obj.dictionary];	
+	var dictionary_arr = fs.readFileSync(path.join(__dirname, dictionary_path)).toString().split("\r\n");
+	var domain = 'google.com';
+	if(typeof obj.domain != "undefined")
+		domain = obj.domain;
+	if(typeof obj.resolver != "undefined")	
+		doFind(obj.resolver);
+	else
+		getResolvers(0, doFind);
+		
+	function doFind(dnsServer){
+		async.eachLimit(dictionary_arr, rateLimit, bruteSubDomain, function(err){
+			console.log('Finished bruteforcing, '+ domain);
+			return;
+		});
+
+		function bruteSubDomain(item, callback){
+			var Sdomain = item + '.' + domain;
+			var question = dns.Question({
+				name: Sdomain,
+				type: 'A',
+			});
+
+			var start = Date.now();
+
+			var req = dns.Request({
+				question: question,
+				server: { address: dnsServer, port: 53, type: 'udp' },
+				timeout: 4000
+			});
+
+			req.on('timeout', function () {
+				//console.log('Timeout in making request');
+			});
+			
+			// rcode = 0 , NoError
+			// rcode = 3 , NXDomain
+			req.on('message', function (err, answer) {
+				if(answer.header.rcode == 0)
+					console.log(Sdomain);	
+			});
+
+			req.on('end', function () {
+				var delta = (Date.now()) - start;
+				//console.log('Finished processing request: ' + delta.toString() + 'ms');
+				callback();
+			});
+
+			req.send();
+
+		}
 	}
 }
+
 exports.find = find;
+find({domain: 'facebook.com', rateLimit: '10', dictionary: 'top_50'});

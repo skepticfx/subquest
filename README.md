@@ -1,6 +1,8 @@
 # subquest
 ### Fast, Elegant subdomain scanner using nodejs
 
+![logo](https://raw.github.com/skepticfx/subquest/master/etc/logo.png)
+
 ## Installation
 
 `npm install -g subquest`
@@ -22,6 +24,4 @@ This scans ea.com for the list of all subdomains using the top-100 dictionary.
 * Domain dictionary from Sub-Brute by Rook, https://github.com/TheRook/subbrute
 * node-dns, https://github.com/tjfontaine/node-dns
 * async, https://github.com/caolan/async
-
-
 

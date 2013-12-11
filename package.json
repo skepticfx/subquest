@@ -1,6 +1,6 @@
 {
   "name": "subquest",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Fast, Elegant subdomain scanner using nodejs",
   "main": "index.js",
   "repository": {
@@ -8,8 +8,8 @@
     "url": "git://github.com/skepticfx/subquest.git"
   },
   "dependencies": {
-	"native-dns" : "*",
-	"async" : "*"
+    "native-dns": "*",
+    "async": "*"
   },
   "bin": {
     "subquest": "./bin/subquest"
@@ -24,10 +24,21 @@
     "fingerprinting",
     "domain"
   ],
-  "author": "Ahamed Nafeez <ahamed.nafeez@gmail.com>",
+  "author": {
+    "name": "Ahamed Nafeez",
+    "email": "ahamed.nafeez@gmail.com"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/skepticfx/subquest/issues"
   },
-  "homepage": "https://github.com/skepticfx/subquest"
+  "homepage": "https://github.com/skepticfx/subquest",
+  "readme": "subquest\r\n========\r\n\r\nFast, Elegant subdomain scanner using nodejs\r\n\r\n\r\n** Modules Used\r\n**** node-dns, https://github.com/tjfontaine/node-dns\r\n**** Domain dictionary from Sub-Brute by Rook, https://github.com/TheRook/subbrute\r\n\r\n\r\n\r\n",
+  "readmeFilename": "README.md",
+  "_id": "subquest@0.0.2",
+  "dist": {
+    "shasum": "e25610a76cb23e414e08679157cca6828c5c3273"
+  },
+  "_from": "subquest@",
+  "_resolved": "https://registry.npmjs.org/subquest/-/subquest-0.0.1.tgz"
 }
