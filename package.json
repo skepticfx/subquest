@@ -1,6 +1,6 @@
 {
   "name": "subquest",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "description": "Fast, Elegant subdomain scanner using nodejs",
   "main": "index.js",
   "repository": {
@@ -8,12 +8,18 @@
     "url": "git://github.com/skepticfx/subquest.git"
   },
   "dependencies": {
-    "native-dns" : "*",
-    "async" : "*",
-	"commander" : "*"
+    "native-dns": "*",
+    "async": "*",
+    "commander": "*"
   },
   "bin": {
     "subquest": "./bin/subquest"
+  },
+  "scripts": {
+    "prepublish": "npm prune"
+  },
+  "engines": {
+    "node": ">= 0.8.0"
   },
   "preferGlobal": true,
   "keywords": [
@@ -35,12 +41,12 @@
     "url": "https://github.com/skepticfx/subquest/issues"
   },
   "homepage": "https://github.com/skepticfx/subquest",
-  "readme": "subquest\r\n========\r\n\r\nFast, Elegant subdomain scanner using nodejs\r\n\r\n\r\n** Modules Used\r\n**** node-dns, https://github.com/tjfontaine/node-dns\r\n**** Domain dictionary from Sub-Brute by Rook, https://github.com/TheRook/subbrute\r\n\r\n\r\n\r\n",
   "readmeFilename": "README.md",
-  "_id": "subquest@0.0.2",
+  "_id": "subquest@0.0.5",
   "dist": {
     "shasum": "e25610a76cb23e414e08679157cca6828c5c3273"
   },
   "_from": "subquest@",
-  "_resolved": "https://registry.npmjs.org/subquest/-/subquest-0.0.1.tgz"
+  "_resolved": "https://registry.npmjs.org/subquest/-/subquest-0.0.1.tgz",
+  "readme": "# subquest\r\n### Fast, Elegant subdomain scanner using nodejs\r\n\r\n![logo](https://raw.github.com/skepticfx/subquest/master/etc/logo.png)\r\n\r\n## Installation\r\n\r\n`npm install -g subquest`\r\n\r\n## Usage\r\n\r\n Usage: subquest [options] <domain to scan>\r\n Examples:\r\n       subquest google.com\r\n       subquest facebook.com -s 8.8.8.8 -r 20 -d top_50\r\n       subquest twitter.com -s 8.8.8.8 -d all\r\n\r\n Options:\r\n\r\n   -h, --help               output usage information\r\n   -V, --version            output the version number\r\n   -s, --server [ip]        Specify your custom DNS resolver\r\n   -r, --ratelimit [limit]  Set the Rate Limit [Default value is 10]\r\n   -d, --dictionary [type]  Set the dictionary for bruteforcing [top_100]\r\n\r\n## Using it in your modules\r\n\r\n`npm install subquest`\r\n\r\n\r\n```js\r\nvar subquest = require('subquest');\r\nconsole.log('Scanning the sub domains of ea.com with 4 requests at a time.');\r\nsubquest.find({domain: 'ea.com', rateLimit:'4', resolver:'4.2.2.2', dictionary: 'top_200'});\r\n```\r\n\r\nThis scans ea.com for the list of all subdomains using the top-100 dictionary.\r\n\r\n## Credits\r\n* Domain dictionary from Sub-Brute by Rook, https://github.com/TheRook/subbrute\r\n* node-dns, https://github.com/tjfontaine/node-dns\r\n* async, https://github.com/caolan/async\r\n* commander, https://github.com/visionmedia/commander.js\r\n\r\n"
 }

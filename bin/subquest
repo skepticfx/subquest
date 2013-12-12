@@ -1,7 +1,5 @@
 #!/usr/bin/env node
 
-// npm install -g subquest
-
 var subquest = require('subquest');
 var program = require('commander');
 
