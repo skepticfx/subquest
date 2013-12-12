@@ -9,7 +9,8 @@
 
 ## Usage
 
-``` Usage: subquest [options] <domain to scan>
+``` 
+Usage: subquest [options] <domain to scan>
  Examples:
        subquest google.com
        subquest facebook.com -s 8.8.8.8 -r 20 -d top_50
