@@ -27,7 +27,7 @@ function getResolvers(all, foundDnsServer, dnsServer){
 	if(all == 1)
 		console.log('Hold on a second ! We are populating the list of valid DNS Resolvers.');
 	var dictionary_path = dictionary.resolver;
-	var dictionary_arr = fs.readFileSync(path.join(__dirname, dictionary_path)).toString().split("\r\n");
+	var dictionary_arr = fs.readFileSync(path.join(__dirname, dictionary_path)).toString().split('\n');
 	async.eachLimit(dictionary_arr, 1, queryResolvers, function(err){
 		if(validResolvers.length == 0){
 			console.log('Could not find any active DNS resolver. Quitting now.');
@@ -126,7 +126,7 @@ function find(obj){
 	var dictionary_path = dictionary.top_100;
 	if(typeof obj.dictionary != "undefined")
 		dictionary_path = dictionary[obj.dictionary];	
-	var dictionary_arr = fs.readFileSync(path.join(__dirname, dictionary_path)).toString().split("\r\n");
+	var dictionary_arr = fs.readFileSync(path.join(__dirname, dictionary_path)).toString().split('\n');
 	var domain = 'google.com';
 	if(typeof obj.domain != "undefined")
 		domain = obj.domain;
