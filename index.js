@@ -3,6 +3,7 @@ var	util = require('util');
 var async = require('async');
 var fs = require('fs');
 var path = require('path');
+var debug = require('debug');
 
 
 var validResolvers = [];
@@ -38,14 +39,14 @@ function getResolvers(all, foundDnsServer, dnsServer){
 			return;
 		}
 	});
-	
+
 	function queryResolvers(item, callback){
 		var domain = 'www.google.com';
 		var question = dns.Question({
 			name: domain,
 			type: 'A',
 		});
-		
+
 		var start = Date.now();
 		var req = dns.Request({
 			question: question,
@@ -56,17 +57,17 @@ function getResolvers(all, foundDnsServer, dnsServer){
 		req.on('timeout', function () {
 			console.log('Timeout in making request');
 		});
-		
+
 		// rcode = 0 , NoError
 		// rcode = 3 , NXDomain
 		req.on('message', function (err, answer) {
 			if(answer.header.rcode == 0){
-				validResolvers.push(item);	
+				validResolvers.push(item);
 				if(all == 0){
 					foundDnsServer(item);
 					callback(true);
-				}		
-			}	
+				}
+			}
 		});
 
 		req.on('end', function () {
@@ -79,7 +80,7 @@ function getResolvers(all, foundDnsServer, dnsServer){
 		});
 
 		req.send();
-	}	
+	}
 
 }
 
@@ -90,7 +91,7 @@ function checkDnsServer(dnsServer, callback){
 		name: 'www.google.com',
 		type: 'A',
 	});
-	
+
 	var start = Date.now();
 	var req = dns.Request({
 		question: question,
@@ -100,9 +101,9 @@ function checkDnsServer(dnsServer, callback){
 
 	req.on('timeout', function () {
 		console.log('Timeout while querying the DNS Server, ' + dnsServer);
-		isValid = 0;		
+		isValid = 0;
 	});
-	
+
 	// rcode = 0 , NoError
 	// rcode = 3 , NXDomain
 	req.on('message', function (err, answer) {
@@ -122,10 +123,10 @@ function checkDnsServer(dnsServer, callback){
 function find(obj){
 	var rateLimit = 5;
 	if(typeof obj.rateLimit != "undefined")
-		rateLimit = obj.rateLimit;	
+		rateLimit = obj.rateLimit;
 	var dictionary_path = dictionary.top_100;
 	if(typeof obj.dictionary != "undefined")
-		dictionary_path = dictionary[obj.dictionary];	
+		dictionary_path = dictionary[obj.dictionary];
 	var dictionary_arr = fs.readFileSync(path.join(__dirname, dictionary_path)).toString().split('\n');
 	var domain = 'google.com';
 	if(typeof obj.domain != "undefined")
@@ -133,16 +134,16 @@ function find(obj){
 	if(typeof obj.resolver != "undefined"){
 		checkDnsServer(obj.resolver, function(err, x){
 			if(x == 1){
-				doFind(obj.resolver);	
+				doFind(obj.resolver);
 			} else {
 				console.log('The DNS Server, ' + obj.resolver + ' doesn\'t seems to respond.');
 				return;
-			}	
+			}
 		});
 	}else{
 		getResolvers(0, doFind);
-	}	
-	
+	}
+
 	function doFind(dnsServer){
 		async.eachLimit(dictionary_arr, rateLimit, bruteSubDomain, function(err){
 			console.log('Finished bruteforcing, '+ domain);
@@ -167,12 +168,12 @@ function find(obj){
 			req.on('timeout', function () {
 				//console.log('Timeout in making request');
 			});
-			
+
 			// rcode = 0 , NoError
 			// rcode = 3 , NXDomain
 			req.on('message', function (err, answer) {
 				if(answer.header.rcode == 0)
-					console.log(Sdomain);	
+					console.log(Sdomain);
 			});
 
 			req.on('end', function () {
