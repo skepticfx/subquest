@@ -1,7 +1,9 @@
 # subquest
 ### Fast, Elegant subdomain scanner using nodejs
-
 ![logo](https://raw.github.com/skepticfx/subquest/master/etc/logo.png)
+
+## Status
+[![Build Status](https://travis-ci.org/skepticfx/subquest.svg?branch=master)](https://travis-ci.org/skepticfx/subquest)
 
 ## Installation
 
@@ -9,7 +11,7 @@
 
 ## Usage
 
-``` 
+```
 Usage: subquest [options] <domain to scan>
  Examples:
        subquest google.com
@@ -24,7 +26,7 @@ Usage: subquest [options] <domain to scan>
    -r, --ratelimit [limit]  Set the Rate Limit [Default value is 10]
    -d, --dictionary [type]  Set the dictionary for bruteforcing [top_100]
 ```
-   
+
 ## Using it in your modules
 
 `npm install subquest`
@@ -43,4 +45,3 @@ This scans ea.com for the list of all subdomains using the top-100 dictionary.
 * node-dns, https://github.com/tjfontaine/node-dns
 * async, https://github.com/caolan/async
 * commander, https://github.com/visionmedia/commander.js
-
