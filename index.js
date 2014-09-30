@@ -4,6 +4,7 @@ var async = require('async');
 var fs = require('fs');
 var path = require('path');
 var debug = require('debug');
+var events = require('events');
 
 
 var validResolvers = [];
@@ -19,7 +20,7 @@ dictionary.resolver = "dictionary/resolvers.txt";
 // This can all be in parallel, since its all different servers.
 // The callback is fired with the first found valid DNS Resolver.
 // ARGS-> all, callback - all = Populate all the valid DNS Servers.
-function getResolvers(all, foundDnsServer, dnsServer){
+exports.getResolvers = function(all, foundDnsServer, dnsServer){
 	if(typeof dnsServer != "undefined"){
 		queryResolvers(dnsServer);
 		return;
