@@ -24,7 +24,6 @@ exports.isValidDnsServer = function(dnsServer){
   });
 
   req.on('timeout', function () {
-    console.log('Timeout while querying the DNS Server, ' + dnsServer);
     EE.emit('invalid', 'Timeout while querying the DNS Server');
   });
 
