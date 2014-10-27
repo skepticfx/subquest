@@ -14,9 +14,10 @@ describe('DNS Servers', function(){
 
     validServers.forEach(function(dnsServer){
       it(dnsServer, function(done){
-        subquest
-          .isValidDnsServer(dnsServer)
-          .on('valid', done)
+        subquest.isValidDnsServer(dnsServer,function(result){
+          result.should.be.true;
+          done();
+        })
       })
     })
   })
@@ -32,13 +33,38 @@ describe('DNS Servers', function(){
 
     invalidServers.forEach(function(dnsServer){
       it(dnsServer, function(done){
-        subquest
-          .isValidDnsServer(dnsServer)
-          .on('invalid', function(x){
-            done();
-          })
+        subquest.isValidDnsServer(dnsServer,function(result){
+          result.should.be.false;
+          done();
+        })
       })
     })
+  })
+
+  describe('get the best DNS server availble', function(){
+    this.timeout(20000)
+
+    it('some random non-dns server: 1.1.14.2', function(done){
+      subquest.getResolver('1.1.14.2', function(result){
+        result.should.be.exactly('8.8.8.8')
+        done()
+      })
+    })
+
+    it('with a valid server: 8.26.56.26', function(done){
+      subquest.getResolver('8.26.56.26', function(result){
+        result.should.be.exactly('8.26.56.26')
+        done()
+      })
+    })
+
+    it('without supplying any DNS server', function(done){
+      subquest.getResolver(function(result){
+        result.should.be.exactly('8.8.8.8')
+        done()
+      })
+    })
+
   })
 
 
