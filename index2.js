@@ -74,7 +74,74 @@ exports.getResolver = function(dnsServer, result_cb){
 /*
 Steps:
 1. Get the best resolver by checking with isValidDnsServer
-2.
-
+2. Iterate through the DNS names and get the server
+3
 
 */
+
+
+
+
+exports.getSubDomains = function(opts){
+  var EE = new events.EventEmitter();
+  if(!opts.host)  EE.emit('error', 'HOST_ERROR');
+  opts.dictionary = opts.dictionary || 'top_100';
+  opts.dnsServer = opts.dnsServer || '8.8.8.8';
+  exports.getResolver(opts.dnsServer, function(dnsServer){
+    EE.emit('dnsServer', dnsServer);
+    var dictionary = fs.readFileSync('./dictionary/'+opts.dictionary+'.txt').toString().trim().split('\n');
+    dictionary.forEach(function(subdomain){
+      probeDNS(subdomain, opts.host, dnsServer)
+        .on('found', function(result){
+          console.log(result)
+        })
+    })
+
+  })
+
+
+return EE;
+}
+
+/*exports.getSubDomains({
+  host: 'google.com'
+});
+*/
+
+function probeDNS(subdomain, tld, dnsServer){
+  var EE = new events.EventEmitter();
+  var Sdomain = subdomain + '.' + tld;
+  var question = dns.Question({
+    name: Sdomain,
+    type: 'A',
+  });
+
+  var start = Date.now();
+
+  var req = dns.Request({
+    question: question,
+    server: {address: dnsServer, port: 53, type: 'udp'},
+    timeout: 5000
+  });
+
+  req.on('timeout', function () {
+    //console.log('Timeout in making request');
+  });
+
+  // rcode = 0 , NoError
+  // rcode = 3 , NXDomain
+  req.on('message', function (err, answer) {
+    if(answer.header.rcode == 0)
+      EE.emit('found', Sdomain);
+  });
+
+  req.on('end', function () {
+    var delta = (Date.now()) - start;
+    EE.emit('end');
+    //console.log('Finished processing request: ' + delta.toString() + 'ms');
+  });
+
+  req.send();
+
+return EE;
+}
