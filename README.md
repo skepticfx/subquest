@@ -12,19 +12,20 @@
 ## Usage
 
 ```
-Usage: subquest [options] <domain to scan>
- Examples:
-       subquest google.com
-       subquest facebook.com -s 8.8.8.8 -r 20 -d top_50
-       subquest twitter.com -s 8.8.8.8 -d all
+  Usage: subquest [options] <domain to scan>
+  Examples:
+	subquest google.com
+	subquest facebook.com -s 8.8.8.8 -r 20 -d top_50
+	subquest twitter.com -s 8.8.8.8 -d all
 
- Options:
+  Options:
 
-   -h, --help               output usage information
-   -V, --version            output the version number
-   -s, --server [ip]        Specify your custom DNS resolver
-   -r, --ratelimit [limit]  Set the Rate Limit [Default value is 10]
-   -d, --dictionary [type]  Set the dictionary for bruteforcing [top_100]
+    -h, --help               output usage information
+    -V, --version            output the version number
+    -b, --bingSearch         use Bing search to list all possible subdomains
+    -s, --server [ip]        specify your custom DNS resolver
+    -r, --rateLimit [limit]  set the Rate Limit [Default value is 10]
+    -d, --dictionary [type]  set the dictionary for bruteforcing [top_100]
 ```
 
 ## Using it in your modules

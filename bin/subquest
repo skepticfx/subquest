@@ -10,10 +10,10 @@ console.log('subquest '+current_version);
 program
   .version(current_version)
   .usage('[options] <domain to scan>\n  Examples:\n\tsubquest google.com\n\tsubquest facebook.com -s 8.8.8.8 -r 20 -d top_50\n\tsubquest twitter.com -s 8.8.8.8 -d all')
-  .option('-b, --bingSearch', 'Use Bing search to list all possible subdomains', false)
-  .option('-s, --server [ip]', 'Specify your custom DNS resolver', '8.8.8.8')
-  .option('-r, --rateLimit [limit]', 'Set the Rate Limit [Default value is 10]', '10')
-  .option('-d, --dictionary [type]', 'Set the dictionary for bruteforcing [top_100]', 'top_100')
+  .option('-b, --bingSearch', 'use Bing search to list all possible subdomains', false)
+  .option('-s, --server [ip]', 'specify your custom DNS resolver', '8.8.8.8')
+  .option('-r, --rateLimit [limit]', 'set the Rate Limit [Default value is 10]', '10')
+  .option('-d, --dictionary [type]', 'set the dictionary for bruteforcing [top_100]', 'top_100')
   .parse(process.argv);
 
 
