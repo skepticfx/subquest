@@ -1,6 +1,6 @@
 {
   "name": "subquest",
-  "version": "0.5.2",
+  "version": "1.0.0",
   "description": "Fast, Elegant subdomain scanner using nodejs",
   "main": "index.js",
   "repository": {

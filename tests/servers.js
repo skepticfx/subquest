@@ -1,5 +1,5 @@
 var should = require('should')
-var subquest = require('../index2')
+var subquest = require('../')
 
 
 describe('DNS Servers', function(){

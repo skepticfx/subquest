@@ -1,27 +1,39 @@
 #!/usr/bin/env node
 
-var subquest = require('subquest');
+var subquest = require('../');
 var program = require('commander');
+
 
 program
   .version('0.1.0')
   .usage('[options] <domain to scan>\n  Examples:\n\tsubquest google.com\n\tsubquest facebook.com -s 8.8.8.8 -r 20 -d top_50\n\tsubquest twitter.com -s 8.8.8.8 -d all')
-  .option('-s, --server [ip]', 'Specify your custom DNS resolver', 'none')
+  .option('-s, --server [ip]', 'Specify your custom DNS resolver', '8.8.8.8')
   .option('-r, --ratelimit [limit]', 'Set the Rate Limit [Default value is 10]', '10')
   .option('-d, --dictionary [type]', 'Set the dictionary for bruteforcing [top_100]', 'top_100')
   .parse(process.argv);
 
-  
+
 if(program.args.length != 1)
 	program.help();
 
-var obj = {};
-obj.domain = program.args[0];
-if (program.server != 'none') obj.resolver = program.server;
-if (program.ratelimit) obj.rateLimit = program.ratelimit;
-if (program.dictionary) obj.dictionary = program.dictionary;
+var options = {};
+options.host = program.args[0];
+if (program.dnserver != 'none') options.dnsServer = program.server;
+if (program.ratelimit) options.rateLimit = program.ratelimit;
+if (program.dictionary) options.dictionary = program.dictionary;
 
-subquest.find(obj);
+subquest
+  .getSubDomains(options)
+  .on('subdomain', function(result){
+      console.log(result);
+  })
+  .on('end', function(result){
+    console.log(' ');
+    console.log('Scanned Ended. Found ' + result.length + ' sub domains');
+    process.exit(1);
+  });
+
+
 
 /*
 find()
