@@ -79,6 +79,12 @@ exports.getSubDomains = function(opts){
 	if(!opts.host)  EE.emit('error', 'HOST_ERROR');
 	opts.dictionary = opts.dictionary || 'top_100';
 	opts.dnsServer = opts.dnsServer || '8.8.8.8';
+
+	if(opts.bingSearch === true){
+		var bingSearch = require('./lib/bingSearch.js');
+		return bingSearch.find(opts.host)
+	}
+
 	exports.getResolver(opts.dnsServer, function(dnsServer){
 		EE.emit('dnsServer', dnsServer);
 		var dictionary = fs.readFileSync(__dirname+'/dictionary/'+ opts.dictionary+'.txt').toString().trim().split('\n');

@@ -10,8 +10,9 @@ console.log('subquest '+current_version);
 program
   .version(current_version)
   .usage('[options] <domain to scan>\n  Examples:\n\tsubquest google.com\n\tsubquest facebook.com -s 8.8.8.8 -r 20 -d top_50\n\tsubquest twitter.com -s 8.8.8.8 -d all')
+  .option('-b, --bingSearch', 'Use Bing search to list all possible subdomains', false)
   .option('-s, --server [ip]', 'Specify your custom DNS resolver', '8.8.8.8')
-  .option('-r, --ratelimit [limit]', 'Set the Rate Limit [Default value is 10]', '10')
+  .option('-r, --rateLimit [limit]', 'Set the Rate Limit [Default value is 10]', '10')
   .option('-d, --dictionary [type]', 'Set the dictionary for bruteforcing [top_100]', 'top_100')
   .parse(process.argv);
 
@@ -22,6 +23,7 @@ if(program.args.length != 1)
 var options = {};
 options.host = program.args[0];
 if (program.dnserver != 'none') options.dnsServer = program.server;
+if (program.bingSearch) options.bingSearch = true;
 if (program.ratelimit) options.rateLimit = program.ratelimit;
 if (program.dictionary) options.dictionary = program.dictionary;
 
@@ -35,14 +37,3 @@ subquest
     console.log('Scanned Ended. Found ' + result.length + ' sub domains');
     process.exit(1);
   });
-
-
-
-/*
-find()
-domain
-rateLimit
-dictionary
-resolver
-
-*/
