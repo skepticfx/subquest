@@ -48,7 +48,7 @@ subquest
   })
 ```
 
-This scans ea.com for the list of all subdomains using the top-100 dictionary.
+This scans ea.com for the list of all subdomains using the top_200 dictionary.
 
 ## Want to add a new entry to Subquest's dictionary?
 

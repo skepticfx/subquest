@@ -73,7 +73,7 @@ exports.getDictionaryNames = function(){
 	return fs.readdirSync(__dirname+'/dictionary');
 }
 
-
+// Send requests to a DNS resolver and find valid sub-domains
 exports.getSubDomains = function(opts){
 	var EE = new events.EventEmitter();
 	if(!opts.host)  EE.emit('error', 'HOST_ERROR');
@@ -108,6 +108,7 @@ exports.getSubDomains = function(opts){
 return EE;
 }
 
+// Send DNS requests 
 function probeDNS(subdomain, tld, dnsServer){
 	var EE = new events.EventEmitter();
 	var Sdomain = subdomain + '.' + tld;
