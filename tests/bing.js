@@ -10,7 +10,7 @@ describe('Usig bing domain dork queries', function(){
       subquest.getSubDomains({host: 'yahoo.com', bingSearch: true})
       .on('end', function(result){
         result.should.be.an.Array
-        result.should.containEql('login.yahoo.com')
+        result.should.containEql('mail.yahoo.com')
         done();
       })
     })
