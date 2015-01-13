@@ -10,7 +10,7 @@ describe('Usig bing domain dork queries', function(){
       subquest.getSubDomains({host: 'yahoo.com', bingSearch: true})
       .on('end', function(result){
         result.should.be.an.Array
-        result.should.containEql('mail.yahoo.com')
+        result[0].should.endWith('.yahoo.com')
         done();
       })
     })
@@ -19,7 +19,7 @@ describe('Usig bing domain dork queries', function(){
       subquest.getSubDomains({host: 'google.com', bingSearch: true})
       .on('end', function(result){
         result.should.be.an.Array
-        result.should.containEql('accounts.google.com')
+        result[0].should.endWith('.google.com')
         done();
       })
     })
