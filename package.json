@@ -10,7 +10,6 @@
   "dependencies": {
     "async": "^2.5.0",
     "commander": "^2.11.0",
-    "debug": "^3.1.0",
     "native-dns": "^0.7.0",
     "request": "^2.83.0",
     "cheerio": "^1.0.0-rc.2",
@@ -20,7 +19,7 @@
     "subquest": "./bin/subquest"
   },
   "scripts": {
-    "prepublish": "npm prune",
+    "prepublish": "snyk test",
     "test": "mocha ./tests/*.js"
   },
   "engines": {
@@ -48,8 +47,6 @@
   "homepage": "https://github.com/cerebrus/subquest",
   "devDependencies": {
     "mocha": "^4.0.1",
-    "should": "^13.1.2",
-    "grunt": "^1.0.x",
-    "grunt-retire": "latest"
+    "should": "^13.1.2"
   }
 }
