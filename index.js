@@ -88,7 +88,7 @@ exports.getDictionaryNames = function(){
 // Send requests to a DNS resolver and find valid sub-domains
 exports.getSubDomains = function(opts){
 	let defaults = {
-		dictionary: 'top_10',
+		dictionary: 'top_50',
 		dnsServer: '8.8.8.8'
 	};
 
