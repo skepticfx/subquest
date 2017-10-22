@@ -19,7 +19,7 @@
     "subquest": "./bin/subquest"
   },
   "scripts": {
-    "prepublish": "snyk test",
+    "prepublish": "nsp check",
     "test": "jest --coverage"
   },
   "engines": {
@@ -47,6 +47,6 @@
   "homepage": "https://github.com/cerebrus/subquest",
   "devDependencies": {
     "jest": "^21.2.1",
-    "snyk": "^1.45.0"
+    "nsp": "^2.8.1"
   }
 }
