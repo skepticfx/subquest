@@ -20,7 +20,7 @@
   },
   "scripts": {
     "prepublish": "snyk test",
-    "test": "mocha ./tests/*.js"
+    "test": "jest --coverage"
   },
   "engines": {
     "node": ">= 0.8.0"
@@ -46,7 +46,6 @@
   },
   "homepage": "https://github.com/cerebrus/subquest",
   "devDependencies": {
-    "mocha": "^4.0.1",
-    "should": "^13.1.2"
+    "jest": "^21.2.1"
   }
 }
