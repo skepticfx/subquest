@@ -46,6 +46,7 @@
   },
   "homepage": "https://github.com/cerebrus/subquest",
   "devDependencies": {
-    "jest": "^21.2.1"
+    "jest": "^21.2.1",
+    "snyk": "^1.45.0"
   }
 }
