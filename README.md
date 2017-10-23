@@ -1,12 +1,11 @@
 # subquest
-### Fast, Elegant subdomain scanner using nodejs
-![logo](https://raw.github.com/skepticfx/subquest/master/etc/logo.png)
-
-## Status
 [![Build Status](https://travis-ci.org/skepticfx/subquest.svg?branch=master)](https://travis-ci.org/skepticfx/subquest)
+> Fast, Elegant subdomain scanner using nodejs
+
+![logo](logo.png)
 
 ## Installation
-
+If you want to use it as cli tool, you must install it globally first:
 `sudo npm install -g subquest`
 
 ## Usage
@@ -29,26 +28,29 @@
 ```
 
 ## Using it in your modules
+If you want to use it as a node module you can install and add it to your project dependencies:
 
-`npm install subquest`
-
+```
+npm install subquest
+```
+Than you can __require__ it in your script and use various methods:
 
 ```js
 var subquest = require('subquest');
-console.log('Scanning the sub domains of ea.com with 4 requests at a time.');
+
 subquest
   .getSubDomains({
-    host: 'ea.com', // required
-    rateLimit:'4',
-    dnsServer:'4.2.2.2',
-    dictionary: 'top_200'
+    host: 'google.com', // required
+    rateLimit:'4', // four requests at time
+    dnsServer:'4.2.2.2', // custom DNS server
+    dictionary: 'top_200' // dictionary file to use
     })
-  .on('end', function(arr){
-    console.log(arr); // array of subdomains.
+  .on('end', function(res){
+    console.log(res); // array of subdomains.
   })
 ```
 
-This scans ea.com for the list of all subdomains using the top_200 dictionary.
+This scans google.com for the list of all subdomains using the top_200 dictionary.
 
 ## Want to add a new entry to Subquest's dictionary?
 
