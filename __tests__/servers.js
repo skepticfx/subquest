@@ -1,69 +1,49 @@
-var subquest = require('../')
+var subquest = require('../index.js')
 
-describe('DNS Servers', function(){
+describe('DNS Servers', function() {
 
-  describe('check list of all valid DNS servers', function(){
+  // Override default jest timeout
+  beforeAll(function() {
     jest.setTimeout(5000)
-    var validServers = [
-      '8.8.8.8',
-      '8.26.56.26',
-      '208.67.222.222'
-      ];
+  })
 
-    validServers.forEach(function(dnsServer){
-      it(dnsServer, function(done){
-        subquest.isValidDnsServer(dnsServer,function(result){
-          expect(result).toBeTruthy();
-          done();
-        })
+  describe('test valid DNS server before adding to resolvers', function() {
+  
+    // Google DNS servers
+    var server = '8.8.8.8';
+  
+    it('returns success if the DNS server is valid', function(done) {
+      subquest.isValidDnsServer(server, function(err) {
+        expect(err).toBeFalsy();
+        done();
       })
     })
   })
 
 
-  describe('check list of all in-valid DNS servers', function(){
-    jest.setTimeout(5000)
-    var invalidServers = [
-      '4.4.8.8',
-      '8.6.56.26',
-      '12.12.3.1'
-      ];
-
-    invalidServers.forEach(function(dnsServer){
-      it(dnsServer, function(done){
-        subquest.isValidDnsServer(dnsServer,function(result){
-          expect(result).toBeFalsy();
-          done();
-        })
+  describe('test invalid DNS server before adding to resolvers', function() {
+  
+    // List of invalid servers
+    var server = '4.4.8.8';
+    
+    it('returns an error if the DNS server is invalid', function(done) {
+      subquest.isValidDnsServer(server, function(err) {
+        expect(err).toBeTruthy();
+        done();
       })
     })
   })
 
-  describe('get the best DNS server availble', function(){
-    jest.setTimeout(20000)
-
-    it('some random non-dns server: 1.1.14.2', function(done){
-      subquest.getResolver('1.1.14.2', function(result){
-        expect(result).toBe('8.8.8.8')
+  describe('adds a user defined DNS server to the stack', function() {
+    it('returns user defined DNS server as first', function(done) {
+      // Custom DNS server
+      let customDNS = '91.239.100.100'
+  
+      // Get resolvers list by adding valid provided server
+      subquest.getResolvers(customDNS, function(result) {
+        expect(result[0]).toBe(customDNS)
         done()
       })
     })
-
-    it('with a valid server: 8.26.56.26', function(done){
-      subquest.getResolver('8.26.56.26', function(result){
-        expect(result).toBe('8.26.56.26')
-        done()
-      })
-    })
-
-    it('without supplying any DNS server', function(done){
-      subquest.getResolver(function(result){
-        expect(result).toBe('8.8.8.8')
-        done()
-      })
-    })
-
   })
-
-
 })
