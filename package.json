@@ -5,12 +5,11 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/cerebrus/subquest.git"
+    "url": "git://github.com/skepticfx/subquest.git"
   },
   "dependencies": {
     "async": "^2.5.0",
     "commander": "^2.11.0",
-    "native-dns": "^0.7.0",
     "request": "^2.83.0",
     "cheerio": "^1.0.0-rc.2",
     "lodash": "^4.17.4"
@@ -42,9 +41,9 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/cerebrus/subquest/issues"
+    "url": "https://github.com/skepticfx/subquest/issues"
   },
-  "homepage": "https://github.com/cerebrus/subquest",
+  "homepage": "https://github.com/skepticfx/subquest",
   "devDependencies": {
     "jest": "^21.2.1",
     "nsp": "^2.8.1"
