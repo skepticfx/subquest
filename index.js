@@ -20,10 +20,10 @@ const probeDNS = (subdomain, tld, cb) => {
 }
 
 /**
- * Return the default DNS servers
- * @return {array} An array of DNS used by the module
- */
-exports.getDefaultResolvers = function() {
+* Return the default DNS servers
+* @return {array} An array of DNS used by the module
+*/
+const getDefaultResolvers = function() {
 	return fs.readFileSync(
 		path.join(__dirname, 'resolvers.txt')
 	).toString().trim().split(os.EOL)
@@ -67,7 +67,7 @@ exports.isValidDnsServer = function(dnsServer, timeout, cb) {
  */
 exports.getResolvers = function(server, callback){
 	// Results array
-	let dnsServers = exports.getDefaultResolvers();
+	let dnsServers = getDefaultResolvers();
 
 	// Handle the first arg as callback if no server is specified.
 	if (typeof server !== 'function') {

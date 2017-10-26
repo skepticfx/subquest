@@ -75,11 +75,17 @@ subquest
 This scans google.com for the list of all subdomains using the top_200 dictionary.
 
 ## Methods
-+ __getDefaultResolvers__: Return the default DNS servers used for the scan
-+ __isValidDnsServer__: Test if a given address is valid DNS server
-+ __getResolvers__: Get the list of all the resolvers (DNS Servers) used in the scan, both default and custom
-+ __getDictionaryNames__: Get the list of the dictionary files used in the scan
-+ __getSubDomains__: Run the scan against the domain to enumerate all subdomains
+#### isValidDnsServer(server, [timeout], callback)
+Test if a given address is valid DNS server
+
+#### getResolvers([domain], callback) 
+Get the list of all the resolvers (DNS Servers) used in the scan, both default and custom
+
+#### getDictionaryNames() 
+Get the list of the dictionary files used in the scan
+
+#### getSubDomains(options, callback) 
+Run the scan against the domain to enumerate all subdomains
 
 ## Want to add a new entry to Subquest's dictionary?
 
