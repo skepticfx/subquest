@@ -20,7 +20,6 @@ describe('DNS Servers', function() {
     })
   })
 
-
   describe('test invalid DNS server before adding to resolvers', function() {
   
     // List of invalid servers
@@ -30,19 +29,6 @@ describe('DNS Servers', function() {
       subquest.isValidDnsServer(server, function(err) {
         expect(err).toBeTruthy();
         done();
-      })
-    })
-  })
-
-  describe('adds a user defined DNS server to the stack', function() {
-    it('returns user defined DNS server as first', function(done) {
-      // Custom DNS server
-      let customDNS = '91.239.100.100'
-  
-      // Get resolvers list by adding valid provided server
-      subquest.getResolvers(customDNS, function(result) {
-        expect(result[0]).toBe(customDNS)
-        done()
       })
     })
   })
