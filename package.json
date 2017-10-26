@@ -19,7 +19,7 @@
   },
   "scripts": {
     "prepublish": "nsp check",
-    "test": "jest --coverage"
+    "test": "jest -i --coverage"
   },
   "engines": {
     "node": ">= 0.8.0"
