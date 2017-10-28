@@ -1,5 +1,7 @@
 # subquest
-[![Build Status](https://travis-ci.org/skepticfx/subquest.svg?branch=master)](https://travis-ci.org/skepticfx/subquest)
+
+[![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url] [![Coverage percentage][coveralls-image]][coveralls-url] [![Known Vulnerabilities][snyk-image]][snyk-url]
+
 > Fast, Elegant subdomain scanner using nodejs
 
 ![logo](logo.png)
@@ -33,8 +35,28 @@ If you want to use it as a node module you can install and add it to your projec
 ```
 npm install subquest
 ```
-Than you can __require__ it in your script and use various methods:
+Than you can __require__ it in your script and use it:
 
+### After v1.5.0
+After the version 1.5.0 the module doesn't use event emitters, just callbacks,
+```js
+const subquest = require('subquest')
+
+subquest.getSubDomains({ 
+  host: 'google.com' 
+}, (err, results) => {
+  
+  if(err) {
+    console.log('Error:', err);
+    return;
+  }
+  
+  console.log('Subdomains:', results);  
+})
+```
+
+### Before v1.5.0
+Before the version 1.5.0 the module makes use of event emitters to determine when it's done.
 ```js
 var subquest = require('subquest');
 
@@ -52,9 +74,28 @@ subquest
 
 This scans google.com for the list of all subdomains using the top_200 dictionary.
 
+## Methods
++ __getDefaultResolvers__: Return the default DNS servers used for the scan
++ __isValidDnsServer__: Test if a given address is valid DNS server
++ __getResolvers__: Get the list of all the resolvers (DNS Servers) used in the scan, both default and custom
++ __getDictionaryNames__: Get the list of the dictionary files used in the scan
++ __getSubDomains__: Run the scan against the domain to enumerate all subdomains
+
 ## Want to add a new entry to Subquest's dictionary?
 
 Add your list of subdomain names to the `./dictionary/all.txt` file and send a pull request.
 
 ## Credits
 * Domain dictionary from Sub-Brute by Rook, https://github.com/TheRook/subbrute
+
+
+[npm-image]: https://badge.fury.io/js/subquest.svg
+[npm-url]: https://npmjs.org/package/subquest
+[travis-image]: https://travis-ci.org/skepticfx/subquest.svg?branch=master
+[travis-url]: https://travis-ci.org/skepticfx/subquest
+[daviddm-image]: https://david-dm.org/skepticfx/subquest.svg?theme=shields.io
+[daviddm-url]: https://david-dm.org/skepticfx/subquest
+[coveralls-image]: https://coveralls.io/repos/skepticfx/subquest/badge.svg
+[coveralls-url]: https://coveralls.io/r/skepticfx/subquest
+[snyk-image]: https://snyk.io/test/github/skepticfx/subquest/badge.svg
+[snyk-url]: https://snyk.io/test/github/skepticfx/subquest
