@@ -9,10 +9,10 @@ const os = require("os");
 
 // Send DNS requests for current subdomain
 const probeDNS = (subdomain, tld, cb) => {
-	
+
 	// Build the domain name
 	const domain = `${subdomain}.${tld}`;
-	
+
 	// Run the resolve request
 	dns.resolve(domain, 'A', err => {
 		cb(err, domain);
@@ -20,23 +20,23 @@ const probeDNS = (subdomain, tld, cb) => {
 }
 
 /**
-* Return the default DNS servers
-* @return {array} An array of DNS used by the module
-*/
-const getDefaultResolvers = function() {
+ * Return the default DNS servers
+ * @return {array} An array of DNS used by the module
+ */
+exports.getDefaultResolvers = function() {
 	return fs.readFileSync(
 		path.join(__dirname, 'resolvers.txt')
 	).toString().trim().split(os.EOL)
 }
 
 // Check whether a dns server is valid.
-exports.isValidDnsServer = function(dnsServer, timeout, cb) {	
+exports.isValidDnsServer = function(dnsServer, timeout, cb) {
 	// Ensure arguments are good
 	if( typeof timeout === 'function' ) {
 		cb = timeout
 		timeout = 4000
 	}
-	
+
 	// Set custom callback handler
 	let called = false
 	let dnsCallback = (err) => {
@@ -45,15 +45,15 @@ exports.isValidDnsServer = function(dnsServer, timeout, cb) {
 		called = true
 		cb(err)
 	};
-	
+
 	// Force to use this dns server
 	dns.setServers([dnsServer]);
-	
+
 	// Set a custom timeout for DNS request
 	let timeoutPromise = setTimeout(_ => {
 		dnsCallback(new Error('Request timeout exceeded!'))
 	}, timeout);
-	
+
 	// Try to resolve google.com
 	dns.resolve4('www.google.com', dnsCallback);
 }
@@ -67,19 +67,25 @@ exports.isValidDnsServer = function(dnsServer, timeout, cb) {
  */
 exports.getResolvers = function(server, callback){
 	// Results array
-	let dnsServers = getDefaultResolvers();
+	let dnsServers = exports.getDefaultResolvers();
+
+	// Run callback if first variable is empty or undefined
+	if (!server) {
+		callback(dnsServers);
+		return;
+	}
 
 	// Handle the first arg as callback if no server is specified.
 	if (typeof server !== 'function') {
-		
-		// Validate custom DNS server than add to resolvers list	
+
+		// Validate custom DNS server than add to resolvers list
 		exports.isValidDnsServer(server, 4000, (err) => {
 			if(err === null) {
 				dnsServers.unshift(server)
 			}
 			callback(dnsServers)
 		});
-		
+
 	} else{
 		callback = server;
 		callback(dnsServers)
@@ -99,13 +105,15 @@ exports.getDictionaryNames = function(){
 exports.getSubDomains = function(options, callback = () => {}) {
 	// Default subdomain scan options
 	let defaults = {
-		dictionary: 'top_50',
-		dnsServer: '8.8.8.8'
+		dictionary: 'top_50'
 	};
-	
+
+	// Clean undefined options
+	Object.keys(options).forEach(key => options[key] === undefined && delete options[key]);
+
 	// Extend default options with user defined ones
 	options = Object.assign({}, defaults, options);
-	
+
 	// Exit if no host option
 	if(!options.host)  {
 		callback(new Error('The host property is missing.'))
@@ -118,16 +126,30 @@ exports.getSubDomains = function(options, callback = () => {}) {
 		return bingSearch.find(options.host, callback)
 	}
 
+  // Get the resolvers list
 	exports.getResolvers(options.dnsServer, (servers) => {
-		
-		// Set new servers list
+
+		// Set new servers list for the requests
 		dns.setServers(servers);
-		
-		// Get dictionary lines
-		var dictionary = fs.readFileSync(
-			path.join(__dirname, `dictionary/${options.dictionary}.txt`)
-		).toString().trim().split(os.EOL);
-		
+
+    // Init dictionary array
+    var dictionary;
+
+    try {
+
+      // Get dictionary lines
+      dictionary = fs.readFileSync(
+        path.join(__dirname, `dictionary/${options.dictionary}.txt`)
+      );
+
+    } catch (e) {
+      callback(new Error(`The dictionary ${options.dictionary} was not found, make sure it exists in the dictionary folder.`));
+      return;
+    }
+
+    // Get dictionary content and split lines in array rows
+    dictionary.toString().trim().split(os.EOL);
+
 		// Probe each subdomain
 		async.mapSeries(dictionary, (subdomain, cb) => {
 			probeDNS(subdomain, options.host, (err, res) => {
