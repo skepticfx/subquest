@@ -113,7 +113,7 @@ exports.getSubDomains = function(options, callback = () => {}) {
 
 	// Extend default options with user defined ones
 	options = Object.assign({}, defaults, options);
-
+	
 	// Exit if no host option
 	if(!options.host)  {
 		callback(new Error('The host property is missing.'))
@@ -131,7 +131,7 @@ exports.getSubDomains = function(options, callback = () => {}) {
 
 		// Set new servers list for the requests
 		dns.setServers(servers);
-
+		
     // Init dictionary array
     var dictionary;
 
@@ -148,7 +148,7 @@ exports.getSubDomains = function(options, callback = () => {}) {
     }
 
     // Get dictionary content and split lines in array rows
-    dictionary.toString().trim().split(os.EOL);
+    dictionary = dictionary.toString().trim().split(os.EOL);
 
 		// Probe each subdomain
 		async.mapSeries(dictionary, (subdomain, cb) => {
