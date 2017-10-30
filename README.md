@@ -7,35 +7,11 @@
 ![logo](logo.png)
 
 ## Installation
-If you want to use it as cli tool, you must install it globally first:
-`sudo npm install -g subquest`
-
-## Usage
-
+To use __subquest__ in your node scripts you have to install it and add it to your project dependencies:
 ```
-  Usage: subquest [options] <domain to scan>
-  Examples:
-	subquest google.com
-	subquest facebook.com -s 8.8.8.8 -r 20 -d top_50
-	subquest twitter.com -s 8.8.8.8 -d all
-
-  Options:
-
-    -h, --help               output usage information
-    -V, --version            output the version number
-    -b, --bingSearch         use Bing search to list all possible subdomains
-    -s, --server [ip]        specify your custom DNS resolver
-    -r, --rateLimit [limit]  set the Rate Limit [Default value is 10]
-    -d, --dictionary [type]  set the dictionary for bruteforcing [top_100]
+npm install --save subquest
 ```
-
-## Using it in your modules
-If you want to use it as a node module you can install and add it to your project dependencies:
-
-```
-npm install subquest
-```
-Than you can __require__ it in your script and use it:
+Than you can __require__ it in your script and use it, following examples below.
 
 ### After v1.5.0
 After the version 1.5.0 the module doesn't use event emitters, just callbacks,
@@ -66,7 +42,7 @@ subquest
     rateLimit:'4', // four requests at time
     dnsServer:'4.2.2.2', // custom DNS server
     dictionary: 'top_200' // dictionary file to use
-    })
+  })
   .on('end', function(res){
     console.log(res); // array of subdomains.
   })
@@ -87,12 +63,28 @@ Get the list of the dictionary files used in the scan
 #### getSubDomains(options, callback) 
 Run the scan against the domain to enumerate all subdomains
 
+## Looking for the cli version?
+You can use __subquest__ as a command line tool by cloning the [official repository](https://github.com/b4dnewz/subquest-cli) or using npm:
+```sh
+$ npm install -g subquest-cli
+```
+
 ## Want to add a new entry to Subquest's dictionary?
 
 Add your list of subdomain names to the `./dictionary/all.txt` file and send a pull request.
 
+
+## Contributing
+
+1. Create an issue and describe your idea
+2. Fork the project (https://github.com/skepticfx/subquest/fork)
+3. Create your feature branch (`git checkout -b my-new-feature`)
+4. Commit your changes (`git commit -am 'Add some feature'`)
+5. Publish the branch (`git push origin my-new-feature`)
+6. Create a new Pull Request
+
 ## Credits
-* Domain dictionary from Sub-Brute by Rook, https://github.com/TheRook/subbrute
+* Domain dictionaries took from SecLists, https://github.com/danielmiessler/SecLists
 
 
 [npm-image]: https://badge.fury.io/js/subquest.svg

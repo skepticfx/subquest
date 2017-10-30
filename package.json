@@ -14,9 +14,6 @@
     "cheerio": "^1.0.0-rc.2",
     "lodash": "^4.17.4"
   },
-  "bin": {
-    "subquest": "./bin/subquest"
-  },
   "scripts": {
     "prepublish": "nsp check",
     "test": "jest -i --coverage"
