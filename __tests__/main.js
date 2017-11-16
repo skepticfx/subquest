@@ -5,8 +5,14 @@ var options = {
 };
 
 describe('Bruteforce Subdomains using DNS requests', function() {
+  it('return error if host property is missing', function(done) {
+    subquest.getSubDomains({}, (err, result) => {
+      expect(err).not.toBeNull();
+      done();
+    });
+  });
 
-  describe('get the array of subdomains', function() {    
+  describe('get the array of subdomains', function() {
     // Override default timeout since operation can take long
     jest.setTimeout(20000);
     // Test DNS brute with google
