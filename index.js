@@ -5,7 +5,7 @@ const	util = require('util');
 const async = require('async');
 const fs = require('fs');
 const path = require('path')
-const os = require("os");
+const EOL = /\r?\n/g;
 
 // Send DNS requests for current subdomain
 const probeDNS = (subdomain, tld, cb) => {
@@ -26,7 +26,7 @@ const probeDNS = (subdomain, tld, cb) => {
 exports.getDefaultResolvers = function() {
 	return fs.readFileSync(
 		path.join(__dirname, 'resolvers.txt')
-	).toString().trim().split(os.EOL)
+	).toString().trim().split(EOL)
 }
 
 // Check whether a dns server is valid.
@@ -113,7 +113,7 @@ exports.getSubDomains = function(options, callback = () => {}) {
 
 	// Extend default options with user defined ones
 	options = Object.assign({}, defaults, options);
-	
+
 	// Exit if no host option
 	if(!options.host)  {
 		callback(new Error('The host property is missing.'))
@@ -131,7 +131,7 @@ exports.getSubDomains = function(options, callback = () => {}) {
 
 		// Set new servers list for the requests
 		dns.setServers(servers);
-		
+
     // Init dictionary array
     var dictionary;
 
@@ -148,7 +148,7 @@ exports.getSubDomains = function(options, callback = () => {}) {
     }
 
     // Get dictionary content and split lines in array rows
-    dictionary = dictionary.toString().trim().split(os.EOL);
+    dictionary = dictionary.toString().trim().split(EOL);
 
 		// Probe each subdomain
 		async.mapSeries(dictionary, (subdomain, cb) => {
