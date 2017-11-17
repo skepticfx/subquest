@@ -1,10 +1,14 @@
-# subquest
+![subquest-logo](logo.jpg)
 
-[![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url] [![Coverage percentage][coveralls-image]][coveralls-url] [![Known Vulnerabilities][snyk-image]][snyk-url]
+<p align="center">
+  <a href="https://npmjs.org/package/subquest"><img src="https://badge.fury.io/js/subquest.svg"></a>
+  <a href="https://travis-ci.org/skepticfx/subquest"><img src="https://travis-ci.org/skepticfx/subquest.svg?branch=master"></a>
+  <a href="https://david-dm.org/skepticfx/subquest"><img src="https://david-dm.org/skepticfx/subquest.svg?theme=shields.io"></a>
+  <a href="https://coveralls.io/r/skepticfx/subquest"><img src="https://coveralls.io/repos/skepticfx/subquest/badge.svg"></a>
+  <a href="https://snyk.io/test/github/skepticfx/subquest"><img src="https://snyk.io/test/github/skepticfx/subquest/badge.svg"></a>
+</p>
 
-> Fast, Elegant subdomain scanner using nodejs
-
-![logo](logo.png)
+<h2 align="center">fast and elegant subdomain scanner built with node</h2>
 
 ## Installation
 To use __subquest__ in your node scripts you have to install it and add it to your project dependencies:
@@ -18,15 +22,15 @@ After the version 1.5.0 the module doesn't use event emitters, just callbacks,
 ```js
 const subquest = require('subquest')
 
-subquest.getSubDomains({ 
-  host: 'google.com' 
+subquest.getSubDomains({
+  host: 'google.com'
 }, (err, results) => {
-  
+
   if(err) {
     console.log('Error:', err);
     return;
   }
-  
+
   console.log('Subdomains:', results);  
 })
 ```
@@ -54,13 +58,13 @@ This scans google.com for the list of all subdomains using the top_200 dictionar
 #### isValidDnsServer(server, [timeout], callback)
 Test if a given address is valid DNS server
 
-#### getResolvers([domain], callback) 
+#### getResolvers([domain], callback)
 Get the list of all the resolvers (DNS Servers) used in the scan, both default and custom
 
-#### getDictionaryNames() 
+#### getDictionaryNames()
 Get the list of the dictionary files used in the scan
 
-#### getSubDomains(options, callback) 
+#### getSubDomains(options, callback)
 Run the scan against the domain to enumerate all subdomains
 
 ## Looking for the cli version?
