@@ -38,7 +38,7 @@ exports.isValidDnsServer = function(dnsServer, timeout, cb) {
 	}
 
 	// Set custom callback handler
-	let called = false
+	let called = false, timeoutPromise = null
 	let dnsCallback = (err) => {
 		clearTimeout(timeoutPromise);
 		if(called) { return }
@@ -50,7 +50,7 @@ exports.isValidDnsServer = function(dnsServer, timeout, cb) {
 	dns.setServers([dnsServer]);
 
 	// Set a custom timeout for DNS request
-	let timeoutPromise = setTimeout(_ => {
+	timeoutPromise = setTimeout(_ => {
 		dnsCallback(new Error('Request timeout exceeded!'))
 	}, timeout);
 
@@ -69,28 +69,26 @@ exports.getResolvers = function(server, callback){
 	// Results array
 	let dnsServers = exports.getDefaultResolvers();
 
-	// Run callback if first variable is empty or undefined
-	if (!server) {
+	// Return default dns servers
+	if (typeof server === 'undefined') {
 		callback(dnsServers);
-		return;
+	}
+	
+	// Return default dns servers
+	else if (typeof server === 'function') {
+		callback = server;
+		callback(dnsServers);
 	}
 
-	// Handle the first arg as callback if no server is specified.
-	if (typeof server !== 'function') {
-
-		// Validate custom DNS server than add to resolvers list
+	// Validate custom DNS server than add to resolvers list
+	else {
 		exports.isValidDnsServer(server, 4000, (err) => {
-			if(err === null) {
+			if (err === null && dnsServers.indexOf(server) === -1) {
 				dnsServers.unshift(server)
 			}
 			callback(dnsServers)
 		});
-
-	} else{
-		callback = server;
-		callback(dnsServers)
 	}
-
 }
 
 /**
