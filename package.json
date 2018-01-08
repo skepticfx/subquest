@@ -2,7 +2,7 @@
   "name": "subquest",
   "version": "1.5.2",
   "description": "Fast, Elegant subdomain scanner using nodejs",
-  "main": "index.js",
+  "main": "./lib/index.js",
   "repository": {
     "type": "git",
     "url": "git://github.com/skepticfx/subquest.git"
