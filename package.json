@@ -2,7 +2,7 @@
   "name": "subquest",
   "version": "1.5.2",
   "description": "Fast, Elegant subdomain scanner using nodejs",
-  "main": "index.js",
+  "main": "./lib/index.js",
   "repository": {
     "type": "git",
     "url": "git://github.com/skepticfx/subquest.git"
@@ -16,6 +16,7 @@
   },
   "scripts": {
     "prepublish": "nsp check",
+    "pretest": "eslint . --fix",
     "test": "jest -i --coverage"
   },
   "engines": {
@@ -43,6 +44,15 @@
   "homepage": "https://github.com/skepticfx/subquest",
   "devDependencies": {
     "jest": "^21.2.1",
-    "nsp": "^3.1.0"
+    "nsp": "^3.1.0",
+    "eslint": "^4.12.1",
+    "eslint-config-xo-space": "^0.17.0"
+  },
+  "eslintConfig": {
+    "extends": "xo-space",
+    "env": {
+      "jest": true,
+      "node": true
+    }
   }
 }
