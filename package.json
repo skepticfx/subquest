@@ -15,7 +15,6 @@
     "request": "^2.87.0"
   },
   "scripts": {
-    "prepublish": "npm audit",
     "pretest": "eslint . --fix",
     "test": "jest -i --coverage"
   },
