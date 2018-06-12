@@ -15,7 +15,6 @@
     "lodash": "^4.17.4"
   },
   "scripts": {
-    "prepublish": "nsp check",
     "pretest": "eslint . --fix",
     "test": "jest -i --coverage"
   },
