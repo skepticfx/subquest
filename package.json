@@ -42,7 +42,7 @@
   },
   "homepage": "https://github.com/skepticfx/subquest",
   "devDependencies": {
-    "eslint": "4.19.1",
+    "eslint": "5.16.0",
     "eslint-config-xo-space": "0.21.0",
     "jest": "24.7.1"
   },
