@@ -8,7 +8,7 @@
     "url": "git://github.com/skepticfx/subquest.git"
   },
   "dependencies": {
-    "async": "^2.6.0",
+    "async": "^3.0.0",
     "cheerio": "^1.0.0-rc.2",
     "commander": "^2.11.0",
     "lodash": "^4.17.10",
